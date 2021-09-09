@@ -21,18 +21,51 @@ function computerPlay() {
  */
 function playSingleRound(playerSelection, computerSelection) {
   // Check for valid string input
-  if !(typeof(playerSelection) === 'string' && typeof(computerSelection) === 'string') {
-    return "Invalid input"
+  if (!(typeof(playerSelection) === 'string' && typeof(computerSelection) === 'string')) {
+    return "Invalid input, please enter a string (rock, paper, scissors)";
   }
 
   // Make playerSelection paramater case-insensitive
-  const upperPlayerSelection = playerSelection.toUpperCase();
-  const upperComputerSelection = computerSelection.toUpperCase();
+  const playerChoice = playerSelection.toUpperCase();
+  const computerChoice = computerSelection.toUpperCase();
+
+  // Check for valid choice
+  const playerChoices = ['ROCK', 'PAPER', 'SCISSORS'];
+  if (!playerChoices.includes(playerChoice)) {
+    return "Invalid choice, please enter a valid choice (rock, paper, scissors)";
+  }
+
+  // Construct message for result of round
+  let message = "";
 
   // Calculate all possible outcomes
+  if (playerChoice === 'ROCK') {
+    if (computerChoice === 'ROCK') {
+      message += "Draw";
+    } else if (computerChoice === 'PAPER') {
+      message += "You Lost! Paper beats Rock";
+    } else {
+      message += "You Won! Rock beats Scissors";
+    }
+  } else if (playerChoice === 'PAPER') {
+    if (computerChoice === 'ROCK') {
+      message += "You Won! Paper beats Rock";
+    } else if (computerChoice === 'PAPER') {
+      message += "Draw";
+    } else {
+      message += "You Lost! Scisoors beats Paper";
+    }
+  } else {
+    if (computerChoice === 'ROCK') {
+      message += "You Lost! Rock beats Scissors";
+    } else if (computerChoice === 'PAPER') {
+      message += "You Won! Scissors beats Paper";
+    } else {
+      message += "Draw";
+    }
+  }
 
-  // Return message
-  let message = "You Lost! Paper beats Rock";
+  return message;
 }
 
 /**
