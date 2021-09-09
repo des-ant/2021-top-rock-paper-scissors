@@ -8,7 +8,7 @@ function computerPlay() {
 
   // Randomise choice by randomising index
   const randomIndex = Math.floor(Math.random() * choices.length);
-  const randomChoice = array[randomIndex];
+  const randomChoice = choices[randomIndex];
 
   return randomChoice;
 }
@@ -17,60 +17,132 @@ function computerPlay() {
  * Plays a single round of Rock Paper Scissors
  * @param  {string} playerSelection The player's selection
  * @param  {string} computerSelection The computer's selection
- * @return {string}      Returns winner of the round
+ * @return {object}      Returns winner of the round as score and message
  */
 function playSingleRound(playerSelection, computerSelection) {
-  // Check for valid string input
-  if (!(typeof(playerSelection) === 'string' && typeof(computerSelection) === 'string')) {
-    return "Invalid input, please enter a string (rock, paper, scissors)";
-  }
-
-  // Make playerSelection paramater case-insensitive
+  // Make choices case insensitive
   const playerChoice = playerSelection.toUpperCase();
   const computerChoice = computerSelection.toUpperCase();
 
-  // Check for valid choice
-  const playerChoices = ['ROCK', 'PAPER', 'SCISSORS'];
-  if (!playerChoices.includes(playerChoice)) {
-    return "Invalid choice, please enter a valid choice (rock, paper, scissors)";
-  }
-
   // Construct message for result of round
-  let message = "";
+  // Keep score
+  let roundScore = {
+    player: 0,
+    computer: 0,
+    message: ""
+  };
 
   // Calculate all possible outcomes
   if (playerChoice === 'ROCK') {
     if (computerChoice === 'ROCK') {
-      message += "Draw";
+      roundScore["message"] += "Draw";
     } else if (computerChoice === 'PAPER') {
-      message += "You Lost! Paper beats Rock";
+      roundScore["message"] += "You Lost! Paper beats Rock";
+      roundScore["computer"] += 1;
     } else {
-      message += "You Won! Rock beats Scissors";
+      roundScore["message"] += "You Won! Rock beats Scissors";
+      roundScore["player"] += 1;
     }
   } else if (playerChoice === 'PAPER') {
     if (computerChoice === 'ROCK') {
-      message += "You Won! Paper beats Rock";
+      roundScore["message"] += "You Won! Paper beats Rock";
+      roundScore["player"] += 1;
     } else if (computerChoice === 'PAPER') {
-      message += "Draw";
+      roundScore["message"] += "Draw";
     } else {
-      message += "You Lost! Scisoors beats Paper";
+      roundScore["message"] += "You Lost! Scisoors beats Paper";
+      roundScore["computer"] += 1;
     }
   } else {
     if (computerChoice === 'ROCK') {
-      message += "You Lost! Rock beats Scissors";
+      roundScore["message"] += "You Lost! Rock beats Scissors";
+      roundScore["computer"] += 1;
     } else if (computerChoice === 'PAPER') {
-      message += "You Won! Scissors beats Paper";
+      roundScore["message"] += "You Won! Scissors beats Paper";
+      roundScore["player"] += 1;
     } else {
-      message += "Draw";
+      roundScore["message"] += "Draw";
     }
   }
 
-  return message;
+  return roundScore;
+}
+
+
+/**
+ * Plays a 5 round game of Rock Paper Scissors \
+ * Keeps score and reports winner or loser at the end
+ */
+function game() {
+  // Keep score
+  let score = {
+    player: 0,
+    computer: 0,
+    round: 1,
+    result: ""
+  };
+
+  // Play 5 rounds
+  for (let i = 0; i < 5; i++) {
+    // Show score and round
+    console.log(`Round ${score["round"]}\nPlayer: ${score["player"]}, Computer: ${score["computer"]}`)
+
+    // Get computer input
+    const computerChoice = computerPlay();
+    // Get player input
+    let playerChoice = prompt("Type Rock, Paper or Scissors");
+    // Check for valid input
+    while (!(checkValidInput(playerChoice))) {
+      playerChoice = prompt("Invalid input, please enter Rock, Paper, or Scissors");
+    }
+
+    // Play a round
+    const result = playSingleRound(playerChoice, computerChoice);
+
+    // Update score and round
+    score["player"] += result["player"];
+    score["computer"] += result["computer"];
+    score["round"] += 1;
+
+    // Show result of round
+    console.log(result["message"]);
+  }
+
+  // Determine winner of game
+  if (score["player"] > score["computer"]) {
+    score["result"] = "You win";
+  } else if (score["player"] < score["computer"]) {
+    score["result"] = "You lose";
+  } else {
+    score["result"] = "Draw";
+  }
+
+  // Show result
+  console.log(score["result"]);
 }
 
 /**
- * [someFunction description]
- * @param  {[type]} arg1 [description]
- * @param  {[type]} arg2 [description]
- * @return {[type]}      [description]
+ * Plays a single round of Rock Paper Scissors
+ * @param  {string} playerSelection The player's selection
+ * @return {boolean}      Returns true if input is valid
  */
+function checkValidInput(playerSelection) {
+  // Check for valid string input
+  if (!(typeof (playerSelection) === 'string')) {
+    return false;
+  }
+
+  // Make playerSelection paramater case-insensitive
+  const playerChoice = playerSelection.toUpperCase();
+
+  // Check for valid choice
+  const playerChoices = ['ROCK', 'PAPER', 'SCISSORS'];
+  if (!playerChoices.includes(playerChoice)) {
+    return false;
+  }
+
+  return true;
+}
+
+// Play game
+game();
