@@ -145,4 +145,19 @@ function checkValidInput(playerSelection) {
 }
 
 // Play game
-game();
+// game();
+
+// Get value from button and use it to play game
+function playBtn(e) {
+  const playerChoice = e.target.value;
+  // Get computer input
+  const computerChoice = computerPlay();
+  // Play a single round and save results
+  const result = playSingleRound(playerChoice, computerChoice);
+  // Show result of round
+  console.log(result["message"]);
+}
+
+// Select all player buttons and add click events to trigger game
+const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
+btnPlayer.forEach(btn => btn.addEventListener('click', playBtn));
