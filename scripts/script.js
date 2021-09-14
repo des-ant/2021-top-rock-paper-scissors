@@ -7,17 +7,34 @@ const score = {
 };
 
 /**
- * Initialise game
+ * Initialises game
  */
 function initGame(score) {
+  // Select all player buttons and add click events to trigger game
+  const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
+  btnPlayer.forEach(btn => btn.disabled = false);
   // Reset scores
   resetScore(score)
-  // Display scores
+  // Display initial scores
   displayScore(score);
+  // Clear winner message
+  displayWinner(score);
+}
+
+/**
+ * Initialises event listeners
+ */
+function initEvents(score) {
+  const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
+  btnPlayer.forEach(btn => btn.addEventListener('click', (e) => playBtn(e, score)));
+  const btnReset = document.querySelector('#btn-reset');
+  btnReset.addEventListener('click', () => initGame(score));
 }
 
 // Initialise game
 initGame(score);
+// Initliase event listeners
+initEvents(score);
 
 /**
  * Initialise scores to reset game
@@ -200,25 +217,29 @@ function playBtn(e, score) {
   // Display global score to DOM
   displayScore(score);
 
-  // Check if game has ended
-  if (score["round"] >= 5) {
-    // Determine winner of game
-    if (score["player"] > score["computer"]) {
-      score["result"] = "You win";
-    } else if (score["player"] < score["computer"]) {
-      score["result"] = "You lose";
-    } else {
-      score["result"] = "Draw";
-    }
-    displayWinner(score);
-
-    resetScore(score);
+  // Check if game has ended and update DOM if game has ended
+  let winningMessage = determineWinner(5, score["player"], score["computer"]);
+  if (winningMessage !== "") {
+    score["result"] = winningMessage;
+    endGame(score);
   }
 }
 
-// Select all player buttons and add click events to trigger game
-const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
-btnPlayer.forEach(btn => btn.addEventListener('click', (e) => playBtn(e, score)));
+/**
+ * Check if game has ended and return result of game
+ * @param  {number} pointsToWin Number of points needed win
+ * @param  {number} playerScore Number of points won by player
+ * @param  {number} computerScore Number of points won by computer
+ * @return {string}      Returns message if game has ended otherwise returns empty string
+ */
+function determineWinner(pointsToWin, playerScore, computerScore) {
+  if (playerScore >= pointsToWin) {
+    return "You win";
+  } else if (computerScore >= pointsToWin) {
+    return "You lose";
+  }
+  return "";
+}
 
 // Display single round results to DOM
 function displayRound(result) {
@@ -236,4 +257,14 @@ function displayScore(score) {
 function displayWinner(score) {
   const textWinner = document.querySelector('#winner');
   textWinner.textContent = `${score["result"]}`;
+}
+
+// Update DOM to reflect end of game
+function endGame(score) {
+  // Display winner to DOM
+  displayWinner(score);
+
+  // Disable player buttons when game ends
+  const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
+  btnPlayer.forEach(btn => btn.disabled = true);
 }
