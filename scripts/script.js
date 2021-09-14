@@ -7,8 +7,21 @@ const score = {
 };
 
 /**
+ * Initialise game
+ */
+function initGame(score) {
+  // Reset scores
+  resetScore(score)
+  // Display scores
+  displayScore(score);
+}
+
+// Initialise game
+initGame(score);
+
+/**
  * Initialise scores to reset game
- * @param  {score} score Object storing game state
+ * @param  {object} score Object storing game state
  */
 function resetScore(score) {
   score["player"] = 0;
@@ -163,13 +176,13 @@ function checkValidInput(playerSelection) {
   return true;
 }
 
-// Play game
-// game();
-
-displayScore(score);
-
-// Get value from button and use it to play game
-function playBtn(e) {
+/**
+ * Plays game of Rock Paper Scissors using button input
+ * @param  {event} e Click event
+ * @param  {object} score Object storing game state
+ */
+function playBtn(e, score) {
+  // Get player selection from button clicked
   const playerChoice = e.target.value;
   // Get computer input
   const computerChoice = computerPlay();
@@ -177,14 +190,14 @@ function playBtn(e) {
   const result = playSingleRound(playerChoice, computerChoice);
 
   // Display result of round to DOM
-  displayResults(result);
+  displayRound(result);
 
-  // Update score and round
+  // Update global score using result of single round
   score["player"] += result["player"];
   score["computer"] += result["computer"];
   score["round"] += 1;
 
-  // Display score to DOM
+  // Display global score to DOM
   displayScore(score);
 
   // Check if game has ended
@@ -205,12 +218,12 @@ function playBtn(e) {
 
 // Select all player buttons and add click events to trigger game
 const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
-btnPlayer.forEach(btn => btn.addEventListener('click', playBtn));
+btnPlayer.forEach(btn => btn.addEventListener('click', (e) => playBtn(e, score)));
 
-// Display game results to DOM
-function displayResults(result) {
-  const textResult = document.querySelector('#result');
-  textResult.textContent = result["message"];
+// Display single round results to DOM
+function displayRound(result) {
+  const textRound = document.querySelector('#round');
+  textRound.textContent = result["message"];
 }
 
 // Display score to DOM
