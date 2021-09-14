@@ -147,17 +147,82 @@ function checkValidInput(playerSelection) {
 // Play game
 // game();
 
+const score = {
+  player: 0,
+  computer: 0,
+  round: 1,
+  result: ""
+};
+
+function resetScore(score) {
+  score = {
+    player: 0,
+    computer: 0,
+    round: 1,
+    result: ""
+  };
+
+  displayScore(score);
+  displayWinner(score);
+}
+
+displayScore(score);
+
 // Get value from button and use it to play game
 function playBtn(e) {
+  console.log(score);
+  
   const playerChoice = e.target.value;
   // Get computer input
   const computerChoice = computerPlay();
   // Play a single round and save results
   const result = playSingleRound(playerChoice, computerChoice);
-  // Show result of round
-  console.log(result["message"]);
+
+  // Display result of round to DOM
+  displayResults(result);
+
+  // Update score and round
+  score["player"] += result["player"];
+  score["computer"] += result["computer"];
+  score["round"] += 1;
+
+  // Display score to DOM
+  displayScore(score);
+
+  // Check if game has ended
+  if (score["round"] >= 5) {
+    // Determine winner of game
+    if (score["player"] > score["computer"]) {
+      score["result"] = "You win";
+    } else if (score["player"] < score["computer"]) {
+      score["result"] = "You lose";
+    } else {
+      score["result"] = "Draw";
+    }
+    displayWinner(score);
+
+    resetScore(score);
+  }
 }
 
 // Select all player buttons and add click events to trigger game
 const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
 btnPlayer.forEach(btn => btn.addEventListener('click', playBtn));
+
+// Display game results to DOM
+function displayResults(result) {
+  const textResult = document.querySelector('#result');
+  textResult.textContent = result["message"];
+}
+
+// Display score to DOM
+function displayScore(score) {
+  const textScore = document.querySelector('#score');
+  textScore.textContent = `Round ${score["round"]}\nPlayer: ${score["player"]}, Computer: ${score["computer"]}`;
+}
+
+// Display winner to DOM
+function displayWinner(score) {
+  const textWinner = document.querySelector('#winner');
+  textWinner.textContent = `${score["result"]}`;
+}
