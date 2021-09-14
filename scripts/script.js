@@ -1,3 +1,22 @@
+// Keep track of game state
+const score = {
+  player: 0,
+  computer: 0,
+  round: 1,
+  result: ""
+};
+
+/**
+ * Initialise scores to reset game
+ * @param  {score} score Object storing game state
+ */
+function resetScore(score) {
+  score["player"] = 0;
+  score["computer"] = 0;
+  score["round"] = 1;
+  score["result"] = "";
+}
+
 /**
  * Randomly return either 'Rock', 'Paper', or 'Scissors'
  * @return {string}      [Rock, Paper, or Scissors]
@@ -50,7 +69,7 @@ function playSingleRound(playerSelection, computerSelection) {
     } else if (computerChoice === 'PAPER') {
       roundScore["message"] += "Draw";
     } else {
-      roundScore["message"] += "You Lost! Scisoors beats Paper";
+      roundScore["message"] += "You Lost! Scissors beats Paper";
       roundScore["computer"] += 1;
     }
   } else {
@@ -147,31 +166,10 @@ function checkValidInput(playerSelection) {
 // Play game
 // game();
 
-const score = {
-  player: 0,
-  computer: 0,
-  round: 1,
-  result: ""
-};
-
-function resetScore(score) {
-  score = {
-    player: 0,
-    computer: 0,
-    round: 1,
-    result: ""
-  };
-
-  displayScore(score);
-  displayWinner(score);
-}
-
 displayScore(score);
 
 // Get value from button and use it to play game
 function playBtn(e) {
-  console.log(score);
-  
   const playerChoice = e.target.value;
   // Get computer input
   const computerChoice = computerPlay();
