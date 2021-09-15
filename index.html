@@ -5,15 +5,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- <link rel="stylesheet" href="styles/reset.css"> -->
+  <link rel="stylesheet" href="styles/styles.css">
   <script src="scripts/script.js" defer></script>
 
   <title>Rock Paper Scissors</title>
 </head>
 <body>
   <h1>Rock Paper Scissors</h1>
-  <button id="btn-rock" value="rock" class="btn-play">Rock</button>
-  <button id="btn-scissors" value="scissors" class="btn-play">Scissors</button>
-  <button id="btn-paper" value="paper" class="btn-play">Paper</button>
+  <div class="container-btn">
+    <button id="btn-rock" value="rock" class="btn-play">&#9994;</button>
+    <button id="btn-paper" value="paper" class="btn-play">&#128400;</button>
+    <button id="btn-scissors" value="scissors" class="btn-play">&#9996;</button>
+  </div>
   <div id="container">
     <p id="score"></p>
     <p id="round"></p>
