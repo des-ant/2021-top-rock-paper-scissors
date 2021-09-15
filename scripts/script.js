@@ -123,8 +123,10 @@ function playSingleRound(playerSelection, computerSelection) {
  * @param  {object} score Object storing game state
  */
 function playBtn(e, score) {
+  // Prevent page refresh
+  e.preventDefault()
   // Get player selection from button clicked
-  const playerChoice = e.target.value;
+  const playerChoice = e.currentTarget.value;
   // Get computer input
   const computerChoice = computerPlay();
   // Play a single round and save results
