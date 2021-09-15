@@ -17,6 +17,12 @@ function initGame(score) {
   resetScore(score)
   // Display initial scores
   displayScore(score);
+  // Clear round message
+  displayRound({
+    player: 0,
+    computer: 0,
+    message: ""
+  }, null);
   // Clear winner message
   displayWinner(score);
 }
@@ -133,7 +139,7 @@ function playBtn(e, score) {
   const result = playSingleRound(playerChoice, computerChoice);
 
   // Display result of round to DOM
-  displayRound(result);
+  displayRound(result, e.currentTarget);
 
   // Update global score using result of single round
   score["player"] += result["player"];
@@ -167,25 +173,60 @@ function determineWinner(pointsToWin, playerScore, computerScore) {
   return "";
 }
 
-// Display single round results to DOM
-function displayRound(result) {
+/**
+ * Display single round results to DOM by changing text and button color
+ * @param  {object} result Object storing result of one round game
+ * @param  {object} button Button DOM element storing player choice
+ */
+function displayRound(result, button) {
   const textRound = document.querySelector('#round');
-  textRound.textContent = result["message"];
+  // Get results of round
+  const roundResult = result["message"];
+  textRound.textContent = roundResult;
+
+  // Reset all button colors
+  const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
+  btnPlayer.forEach(btn => btn.classList.remove("btn-won", "btn-lost", "btn-draw"));
+  // If no button is passed, exit function
+  if (button === null) {
+    return
+  };
+  // Change button color to show result of round
+  if (roundResult.includes("Won")) {
+    button.classList.add("btn-won");
+  } else if (roundResult.includes("Lost")) {
+    button.classList.add("btn-lost");
+  } else if (roundResult.includes("Draw")) {
+    button.classList.add("btn-draw");
+  }
 }
 
-// Display score to DOM
+/**
+ * Display round number and score to DOM
+ * @param  {object} score Object storing game state
+ */
 function displayScore(score) {
-  const textScore = document.querySelector('#score');
-  textScore.textContent = `Round ${score["round"]}\nPlayer: ${score["player"]}, Computer: ${score["computer"]}`;
+  const roundNumber = document.querySelector('#round-number');
+  roundNumber.textContent = `Round ${score["round"]}`;
+  const playerScore = document.querySelector('#score-player');
+  playerScore.textContent = `${score["player"]}`;
+  const computerScore = document.querySelector('#score-computer');
+  computerScore.textContent = `${score["computer"]}`;
 }
 
-// Display winner to DOM
+/**
+ * Display winner to DOM
+ * @param  {object} score Object storing game state
+ */
 function displayWinner(score) {
   const textWinner = document.querySelector('#winner');
   textWinner.textContent = `${score["result"]}`;
 }
 
-// Update DOM to reflect end of game
+/**
+ * Update DOM to reflect end of game
+ * @param  {object} score Object storing game state
+ */
 function endGame(score) {
   // Display winner to DOM
   displayWinner(score);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,24 +12,34 @@
 
   <title>Rock Paper Scissors</title>
 </head>
+
 <body>
-  <h1>Rock Paper Scissors</h1>
-  <div class="container-btn">
-    <button id="btn-rock" value="rock" class="btn-play">
-      <img src="img/1FAA8.svg" alt="Rock">
-    </button>
-    <button id="btn-paper" value="paper" class="btn-play">
-      <img src="img/1F4C4.svg" alt="Paper">
-    </button>
-    <button id="btn-scissors" value="scissors" class="btn-play">
-      <img src="img/2702.svg" alt="Scissors">
-    </button>
+  <div class="container-main">
+    <h1>Rock Paper Scissors</h1>
+    <div class="container-msg-top">
+      <h2 id="round-number"></h2>
+      <div class="container-scores">
+        <p><b>Player: </b><span id="score-player"></span></p>
+        <p><b>Computer: </b><span id="score-computer"></span></p>
+      </div>
+    </div>
+    <div class="container-btn">
+      <button id="btn-rock" value="rock" class="btn-play">
+        <img src="img/1FAA8.svg" alt="Rock">
+      </button>
+      <button id="btn-paper" value="paper" class="btn-play">
+        <img src="img/1F4C4.svg" alt="Paper">
+      </button>
+      <button id="btn-scissors" value="scissors" class="btn-play">
+        <img src="img/2702.svg" alt="Scissors">
+      </button>
+    </div>
+    <div class="container-msg-bottom">
+      <p id="round"></p>
+      <p id="winner"></p>
+    </div>
+    <button id="btn-reset" class="btn-text">New Game</button>
   </div>
-  <div id="container">
-    <p id="score"></p>
-    <p id="round"></p>
-    <p id="winner"></p>
-  </div>
-  <button id="btn-reset">Reset</button>
 </body>
+
 </html>
