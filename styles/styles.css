@@ -45,6 +45,7 @@
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
+  text-align: center;
 }
 
 .btn-text {
@@ -80,4 +81,15 @@
   flex-direction: row;
   justify-content: space-between;
   width: 300px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .btn-play {
+    width: 100px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
 }
