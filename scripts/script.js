@@ -8,6 +8,7 @@ const score = {
 
 /**
  * Initialises game
+ * @param  {object} score Object storing game state
  */
 function initGame(score) {
   // Select all player buttons and add click events to trigger game
@@ -29,6 +30,7 @@ function initGame(score) {
 
 /**
  * Initialises event listeners
+ * @param  {object} score Object storing game state
  */
 function initEvents(score) {
   const btnPlayer = Array.from(document.querySelectorAll('.btn-play'));
